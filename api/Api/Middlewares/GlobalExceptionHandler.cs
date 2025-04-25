@@ -1,5 +1,6 @@
 ﻿using Api.Models;
 using Application;
+using Application.Common;
 using Application.Common.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 

@@ -2,9 +2,11 @@
 using Application.Common.Settings;
 using Infrastructure.Persistence.Interceptors;
 using Infrastructure.Services;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Npgsql;
 
 namespace Infrastructure;
 
@@ -20,14 +22,13 @@ public static class ConfigureServices
         services.AddScoped<AppSaveChangeInterceptor>();
 
         var dataSourceBuilder = new NpgsqlDataSourceBuilder(connectionString);
-        dataSourceBuilder.UseNetTopologySuite();
         var dataSource = dataSourceBuilder.Build();
         services.AddSingleton(dataSource);
 
 
         services.AddDbContext<IApplicationDbContext, ApplicationDbContext>((serviceProvider, options) =>
         {
-            options.UseNpgsql(serviceProvider.GetRequiredService<NpgsqlDataSource>(), options => options.UseNetTopologySuite());
+            options.UseNpgsql(serviceProvider.GetRequiredService<NpgsqlDataSource>());
 
             options.AddInterceptors(serviceProvider.GetRequiredService<AppSaveChangeInterceptor>());
         });
@@ -37,6 +38,7 @@ public static class ConfigureServices
 //        services.AddScoped<DatabaseInitializer>();
 
         services.AddScoped<TokenValidator>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         services.AddSingleton(_ =>
         {

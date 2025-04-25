@@ -51,16 +51,6 @@ public class AppSaveChangeInterceptor : SaveChangesInterceptor
                 entry.Entity.LastUpdatedAt = _dateTime.Now;
             }
         }
-
-        foreach (var entry in context.ChangeTracker.Entries<ISoftDelete>())
-        {
-            if (entry.State == EntityState.Deleted)
-            {
-                entry.State = EntityState.Modified;
-                entry.Entity.DeletedBy = currentUserService.UserId;
-                entry.Entity.DeletedAt = _dateTime.Now;
-            }
-        }
     }
 }
 
