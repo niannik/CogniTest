@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities.WorkingMemoryAggregate;
 using Domain.Enums;
 
 namespace Domain.Entities.UserAggregate;
@@ -21,4 +22,6 @@ public class User : AuditableEntity
     public int Age { get; set; }
     public Gender Gender { get; set; }
     public bool IsRightHanded { get; set; }
+
+    public List<WorkingMemoryResponse>? WorkingMemoryResponses { get; set; }
 }

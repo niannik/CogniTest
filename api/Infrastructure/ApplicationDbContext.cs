@@ -1,7 +1,9 @@
 ﻿using Application.Common.Interfaces;
 using Domain.Entities.UserAggregate;
+using Domain.Entities.WorkingMemoryAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using File = Domain.Entities.FileAggregate.File;
 
 namespace Infrastructure;
 
@@ -26,4 +28,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     }
 
     public DbSet<User> Users { get; set; }
+    public DbSet<WorkingMemoryTest> WorkingMemoryTests { get; set; }
+    public DbSet<WorkingMemoryTerm> WorkingMemoryTerms { get; set; }
+    public DbSet<File> Files { get; set; }
+
 }
