@@ -1,4 +1,5 @@
 ﻿using Application.Common.Interfaces;
+using Domain.Entities.UserAggregate;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 
@@ -23,4 +24,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         base.OnModelCreating(builder);
     }
+
+    public DbSet<User> Users { get; set; }
 }
