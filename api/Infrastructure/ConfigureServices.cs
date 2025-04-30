@@ -35,7 +35,7 @@ public static class ConfigureServices
 
         services.AddMemoryCache();
 
-//        services.AddScoped<DatabaseInitializer>();
+        services.AddScoped<DatabaseInitializer>();
 
         services.AddScoped<TokenValidator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();

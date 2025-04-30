@@ -20,7 +20,7 @@ builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 
 var app = builder.Build();
 
-//await InitializeDatabaseAsync(app);
+await InitializeDatabaseAsync(app);
 
 if (app.Environment.IsProduction() == false)
 {
@@ -53,13 +53,13 @@ app.MapControllers();
 
 app.Run();
 
-//static async Task InitializeDatabaseAsync(IApplicationBuilder app)
-//{
-//    await using var scope = app.ApplicationServices.CreateAsyncScope();
+static async Task InitializeDatabaseAsync(IApplicationBuilder app)
+{
+    await using var scope = app.ApplicationServices.CreateAsyncScope();
 
-//    //var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
+    var initializer = scope.ServiceProvider.GetRequiredService<DatabaseInitializer>();
 
-//    await initializer.CreateDatabaseAsync();
-//}
+    await initializer.CreateDatabaseAsync();
+}
 
 public partial class Program { }
