@@ -4,5 +4,5 @@ namespace Application.Users.Common;
 
 public class UserErrors
 {
-    public static Error PhoneNumberAlreadyExists = new("شماره تلفن قبلا ثبت شده است", "Phone_Number_Already_Exists");
+    public static Error RefreshTokenIsNotValid = new("رفرش توکن معتبر نیست", "Refresh_Token_Is_Not_Valid");
 }

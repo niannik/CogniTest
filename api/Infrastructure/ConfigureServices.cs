@@ -39,6 +39,10 @@ public static class ConfigureServices
 
         services.AddScoped<TokenValidator>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+        services.AddSingleton<TokenFactoryService>();
+        services.AddSingleton<ISecurityService, SecurityService>();
+        services.AddScoped<ISignInAdminService, SignInAdminService>();
+        services.AddScoped<ISignInUserService, SignInUserService>();
 
         services.AddSingleton(_ =>
         {

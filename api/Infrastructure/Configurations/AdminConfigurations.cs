@@ -20,6 +20,10 @@ public class AdminConfigurations : IEntityTypeConfiguration<Admin>
         builder.Property(x => x.FullName)
             .IsRequired();
 
+        builder.HasMany(x => x.UserDevices)
+            .WithOne(x => x.Admin)
+            .HasForeignKey(x => x.AdminId);
+
         builder.HasMany(x => x.AdminRoles)
             .WithOne(x => x.Admin)
             .HasForeignKey(x => x.AdminId);

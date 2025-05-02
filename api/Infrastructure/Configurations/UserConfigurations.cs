@@ -33,6 +33,10 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             .HasDefaultValue(true)
             .IsRequired();
 
+        builder.HasMany(x => x.UserDevices)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
+
         builder.HasOne(x => x.School)
             .WithMany(x => x.Students)
             .OnDelete(DeleteBehavior.Restrict)

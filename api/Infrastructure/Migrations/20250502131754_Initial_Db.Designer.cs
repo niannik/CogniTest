@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250502102201_Initial_Db")]
+    [Migration("20250502131754_Initial_Db")]
     partial class Initial_Db
     {
         /// <inheritdoc />
@@ -332,6 +332,41 @@ namespace Infrastructure.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("Domain.Entities.UserAggregate.UserDevice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AdminId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("HashedRefreshToken")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("RefreshTokenExpiresAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("SchoolPrincipalId")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AdminId");
+
+                    b.HasIndex("SchoolPrincipalId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserDevices");
+                });
+
             modelBuilder.Entity("Domain.Entities.WorkingMemoryAggregate.WorkingMemoryResponse", b =>
                 {
                     b.Property<int>("Id")
@@ -484,6 +519,27 @@ namespace Infrastructure.Migrations
                     b.Navigation("School");
                 });
 
+            modelBuilder.Entity("Domain.Entities.UserAggregate.UserDevice", b =>
+                {
+                    b.HasOne("Domain.Entities.AdminAggregate.Admin", "Admin")
+                        .WithMany("UserDevices")
+                        .HasForeignKey("AdminId");
+
+                    b.HasOne("Domain.Entities.SchoolAggregate.SchoolPrincipal", "SchoolPrincipal")
+                        .WithMany("UserDevices")
+                        .HasForeignKey("SchoolPrincipalId");
+
+                    b.HasOne("Domain.Entities.UserAggregate.User", "User")
+                        .WithMany("UserDevices")
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Admin");
+
+                    b.Navigation("SchoolPrincipal");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.WorkingMemoryAggregate.WorkingMemoryResponse", b =>
                 {
                     b.HasOne("Domain.Entities.UserAggregate.User", "Student")
@@ -525,6 +581,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.AdminAggregate.Admin", b =>
                 {
                     b.Navigation("AdminRoles");
+
+                    b.Navigation("UserDevices");
                 });
 
             modelBuilder.Entity("Domain.Entities.CityAggregate.City", b =>
@@ -554,8 +612,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("Students");
                 });
 
+            modelBuilder.Entity("Domain.Entities.SchoolAggregate.SchoolPrincipal", b =>
+                {
+                    b.Navigation("UserDevices");
+                });
+
             modelBuilder.Entity("Domain.Entities.UserAggregate.User", b =>
                 {
+                    b.Navigation("UserDevices");
+
                     b.Navigation("WorkingMemoryResponses");
                 });
 

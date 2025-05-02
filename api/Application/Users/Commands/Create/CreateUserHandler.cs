@@ -1,6 +1,6 @@
 ﻿using Application.Common;
 using Application.Common.Interfaces;
-using Application.Users.Common;
+using Application.Users.Common.Models;
 using Domain.Entities.UserAggregate;
 using Infrastructure;
 using MediatR;
@@ -8,26 +8,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Users.Commands.Create;
 
-public class CreateUserHandler : IRequestHandler<CreateUserCommand, Result>
+public class CreateUserHandler : IRequestHandler<CreateUserCommand, Result<UserTokenDto>>
 {
     private readonly IApplicationDbContext _dbContext;
-    public CreateUserHandler(IApplicationDbContext dbContext)
+    private readonly ISignInUserService _signInUserService;
+    public CreateUserHandler(IApplicationDbContext dbContext, ISignInUserService signInUserService)
     {
         _dbContext = dbContext;
+        _signInUserService = signInUserService;
     }
-    public async Task<Result> Handle(CreateUserCommand request, CancellationToken cancellationToken)
+    public async Task<Result<UserTokenDto>> Handle(CreateUserCommand request, CancellationToken cancellationToken)
     {
-        var isPhoneNumberExists = await _dbContext.Users
-            .AnyAsync(x => x.PhoneNumber == request.PhoneNumber, cancellationToken);
+        var user = await _dbContext.Users
+            .FirstOrDefaultAsync(x => x.PhoneNumber == request.PhoneNumber, cancellationToken);
 
-        if (isPhoneNumberExists)
-            return UserErrors.PhoneNumberAlreadyExists;
-
-        //var user = new User(request.PhoneNumber, request.FirstName, request.LastName, request.Age, request.Gender, request.IsRightHanded);
-        //_dbContext.Users.Add(user);
-
+        if (user is null)
+        {
+            user = new User(request.PhoneNumber, request.FirstName, request.LastName, request.Age, request.Gender, request.IsRightHanded, request.SchoolId);
+            _dbContext.Users.Add(user);
+        }
+        
         await _dbContext.SaveChangesAsync(cancellationToken);
 
-        return Result.Success();
+        return await _signInUserService.LoginAsync(user, cancellationToken);
     }
 }

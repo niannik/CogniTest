@@ -245,6 +245,38 @@ namespace Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserDevices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    HashedRefreshToken = table.Column<string>(type: "text", nullable: false),
+                    RefreshTokenExpiresAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    AdminId = table.Column<int>(type: "integer", nullable: true),
+                    SchoolPrincipalId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserDevices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserDevices_Admins_AdminId",
+                        column: x => x.AdminId,
+                        principalTable: "Admins",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserDevices_SchoolPrincipals_SchoolPrincipalId",
+                        column: x => x.SchoolPrincipalId,
+                        principalTable: "SchoolPrincipals",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_UserDevices_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "WorkingMemoryResponses",
                 columns: table => new
                 {
@@ -303,6 +335,21 @@ namespace Infrastructure.Migrations
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_UserDevices_AdminId",
+                table: "UserDevices",
+                column: "AdminId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDevices_SchoolPrincipalId",
+                table: "UserDevices",
+                column: "SchoolPrincipalId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserDevices_UserId",
+                table: "UserDevices",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Users_SchoolId",
                 table: "Users",
                 column: "SchoolId");
@@ -335,16 +382,19 @@ namespace Infrastructure.Migrations
                 name: "AdminRoles");
 
             migrationBuilder.DropTable(
-                name: "SchoolPrincipals");
+                name: "UserDevices");
 
             migrationBuilder.DropTable(
                 name: "WorkingMemoryResponses");
 
             migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
                 name: "Admins");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "SchoolPrincipals");
 
             migrationBuilder.DropTable(
                 name: "Users");

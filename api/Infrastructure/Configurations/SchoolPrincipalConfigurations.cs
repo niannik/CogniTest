@@ -26,6 +26,10 @@ public class SchoolPrincipalConfigurations : IEntityTypeConfiguration<SchoolPrin
             .HasMaxLength(10)
             .IsRequired();
 
+        builder.HasMany(x => x.UserDevices)
+            .WithOne(x => x.SchoolPrincipal)
+            .HasForeignKey(x => x.SchoolPrincipalId);
+
         builder.HasOne(x => x.School)
             .WithOne(x => x.Principal)
             .HasForeignKey<SchoolPrincipal>(x => x.SchoolId);

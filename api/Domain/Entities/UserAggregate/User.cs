@@ -26,6 +26,7 @@ public class User : AuditableEntity
     public bool IsRightHanded { get; set; }
     public int SchoolId { get; set; }
 
+    public List<UserDevice>? UserDevices { get; set; }
     public School? School { get; set; }
     public List<WorkingMemoryResponse>? WorkingMemoryResponses { get; set; }
 }

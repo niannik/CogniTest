@@ -1,4 +1,5 @@
-﻿using Api.Services;
+﻿using Api.Authorization;
+using Api.Services;
 using Application.Common.Interfaces;
 using Application.Common.Settings;
 using Asp.Versioning;
@@ -130,5 +131,8 @@ public static class ConfigureServices
                 }
             };
         });
+        services.AddAuthorizationBuilder()
+            .AddPolicy(AppAuthorizationPolicies.SuperAdmin, builder => builder.RequireRole(AppRoles.SuperAdmin))
+            .AddPolicy(AppAuthorizationPolicies.SchoolPrincipal, builder => builder.RequireRole(AppRoles.SchoolPrincipal));
     }
 }

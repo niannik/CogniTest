@@ -28,4 +28,5 @@ public interface IApplicationDbContext
     public DbSet<WorkingMemoryTerm> WorkingMemoryTerms { get; set; }
     public DbSet<WorkingMemoryResponse> WorkingMemoryResponses { get; set; }
     public DbSet<File> Files { get; set; }
+    public DbSet<UserDevice> UserDevices { get; set; }
 }
