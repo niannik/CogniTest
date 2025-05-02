@@ -23,8 +23,8 @@ public class CreateUserHandler : IRequestHandler<CreateUserCommand, Result>
         if (isPhoneNumberExists)
             return UserErrors.PhoneNumberAlreadyExists;
 
-        var user = new User(request.PhoneNumber, request.FirstName, request.LastName, request.Age, request.Gender, request.IsRightHanded);
-        _dbContext.Users.Add(user);
+        //var user = new User(request.PhoneNumber, request.FirstName, request.LastName, request.Age, request.Gender, request.IsRightHanded);
+        //_dbContext.Users.Add(user);
 
         await _dbContext.SaveChangesAsync(cancellationToken);
 

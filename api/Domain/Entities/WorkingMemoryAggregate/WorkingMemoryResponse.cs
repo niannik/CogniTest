@@ -5,18 +5,18 @@ namespace Domain.Entities.WorkingMemoryAggregate;
 
 public class WorkingMemoryResponse : AuditableEntity
 {
-    public WorkingMemoryResponse(bool isTarget, long responseTime, int workingMemoryTermId, int userId)
+    public WorkingMemoryResponse(bool isTarget, long responseTime, int workingMemoryTermId, int studentId)
     {
         IsTarget = isTarget;
         ResponseTime = responseTime;
         WorkingMemoryTermId = workingMemoryTermId;
-        UserId = userId;
+        StudentId = studentId;
     }
     public bool IsTarget { get; set; }
     public long ResponseTime { get; set; }
     public int WorkingMemoryTermId { get; set; }
-    public int UserId { get; set; }
+    public int StudentId { get; set; }
 
     public WorkingMemoryTerm? WorkingMemoryTerm { get; set; }
-    public User? User { get; set; }
+    public User? Student { get; set; }
 }

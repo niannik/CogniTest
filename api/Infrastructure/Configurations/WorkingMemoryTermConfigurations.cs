@@ -17,10 +17,12 @@ public class WorkingMemoryTermConfigurations : IEntityTypeConfiguration<WorkingM
 
         builder.HasOne(x => x.WorkingMemoryTest)
             .WithMany(x => x.WorkingMemoryTerms)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.WorkingMemoryTestId);
 
         builder.HasMany(x => x.WorkingMemoryResponses)
             .WithOne(x => x.WorkingMemoryTerm)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.WorkingMemoryTermId);
     }
 }

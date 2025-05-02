@@ -13,10 +13,11 @@ public class WorkingMemoryResponseConfigurations : IEntityTypeConfiguration<Work
 
         builder.HasOne(x => x.WorkingMemoryTerm)
             .WithMany(x => x.WorkingMemoryResponses)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.WorkingMemoryTermId);
 
-        builder.HasOne(x => x.User)
+        builder.HasOne(x => x.Student)
             .WithMany(x => x.WorkingMemoryResponses)
-            .HasForeignKey(x => x.UserId);
+            .HasForeignKey(x => x.StudentId);
     }
 }

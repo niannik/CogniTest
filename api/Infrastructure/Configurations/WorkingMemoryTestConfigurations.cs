@@ -13,6 +13,7 @@ public class WorkingMemoryTestConfigurations : IEntityTypeConfiguration<WorkingM
 
         builder.HasMany(x => x.WorkingMemoryTerms)
             .WithOne(x => x.WorkingMemoryTest)
+            .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.WorkingMemoryTestId);
     }
 }

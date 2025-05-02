@@ -49,6 +49,11 @@ public static class ConfigureServices
 
             return bearerTokenSettings;
         });
-
+        services.AddSingleton(_ =>
+        {
+            AdminSettings adminSettings = new();
+            configuration.GetRequiredSection("AdminSettings").Bind(adminSettings);
+            return adminSettings;
+        });
     }
 }
