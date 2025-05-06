@@ -2,6 +2,7 @@
 using Application.Common.Settings;
 using Application.Common.Utilities;
 using Domain.Entities.AdminAggregate;
+using Domain.Entities.CityAggregate;
 using Domain.Entities.RoleAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
@@ -38,7 +39,7 @@ public class DatabaseInitializer
             {
                 var admin = new Admin
                 {
-                    FullName = "admin",
+                    FullName = "ادمین",
                     UserName = _adminSettings.UserName,
                     PasswordHash = PasswordHash.HashPassword(_adminSettings.Password)
                 };
@@ -55,6 +56,16 @@ public class DatabaseInitializer
                 var adminRole = new AdminRole(adminId, roleId);
                 _dbContext.AdminRoles.Add(adminRole);
                 await _dbContext.SaveChangesAsync();
+            }
+
+            var isProvinceExists = await _dbContext.Provinces.AnyAsync();
+            if (!isProvinceExists)
+            {
+                var province = new Province() { Name = "تهران" };
+                _dbContext.Provinces.Add(province);
+                await _dbContext.SaveChangesAsync();
+                var city = new City("تهران", province.Id);
+                _dbContext.Cities.Add(city);
             }
             await _dbContext.SaveChangesAsync();
         }

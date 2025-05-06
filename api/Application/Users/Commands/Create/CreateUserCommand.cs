@@ -5,7 +5,7 @@ using MediatR;
 
 namespace Infrastructure;
 
-public class CreateUserCommand : IRequest<Result<UserTokenDto>>
+public record CreateUserCommand : IRequest<Result<UserTokenDto>>
 {
     public required string PhoneNumber { get; set; }
     public required string FirstName { get; set; }
