@@ -12,11 +12,11 @@ public class SchoolPrincipalConfigurations : IEntityTypeConfiguration<SchoolPrin
 
         builder.Property(x => x.FirstName)
             .HasMaxLength(50)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.LastName)
             .HasMaxLength(50)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.Property(x => x.PhoneNumber)
             .HasMaxLength(11)
@@ -24,7 +24,7 @@ public class SchoolPrincipalConfigurations : IEntityTypeConfiguration<SchoolPrin
 
         builder.Property(x => x.NationalCode)
             .HasMaxLength(10)
-            .IsRequired();
+            .IsRequired(false);
 
         builder.HasMany(x => x.UserDevices)
             .WithOne(x => x.SchoolPrincipal)

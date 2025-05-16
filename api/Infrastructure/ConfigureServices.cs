@@ -43,6 +43,8 @@ public static class ConfigureServices
         services.AddSingleton<ISecurityService, SecurityService>();
         services.AddScoped<ISignInAdminService, SignInAdminService>();
         services.AddScoped<ISignInUserService, SignInUserService>();
+        services.AddScoped<ISignInSchoolPrincipalService, SignInSchoolPrincipalService>();
+        services.AddScoped<ISmsService, SmsService>();
 
         services.AddSingleton(_ =>
         {
@@ -58,6 +60,12 @@ public static class ConfigureServices
             AdminSettings adminSettings = new();
             configuration.GetRequiredSection("AdminSettings").Bind(adminSettings);
             return adminSettings;
+        });
+        services.AddSingleton(_ =>
+        {
+            SmsSettings smsSettings = new();
+            configuration.GetRequiredSection("SmsSettings").Bind(smsSettings);
+            return smsSettings;
         });
     }
 }

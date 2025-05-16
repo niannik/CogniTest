@@ -33,7 +33,7 @@ public class TokenFactoryService : ITokenFactoryService
 
         return CreateAccessToken(claims);
     }
-    public string CreateSellerJwt(SchoolPrincipal schoolPrincipal)
+    public string CreateSchoolPrincipalJwt(SchoolPrincipal schoolPrincipal)
     {
         var claims = CreateSchoolPrincipalAccessTokenClaims(schoolPrincipal);
 

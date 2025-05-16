@@ -5,20 +5,16 @@ namespace Domain.Entities.SchoolAggregate;
 
 public class SchoolPrincipal : AuditableEntity
 {
-    public SchoolPrincipal(string phoneNumber, string nationalCode, string firstName, string lastName, int schoolId)
+    public SchoolPrincipal(string phoneNumber)
     {
         PhoneNumber = phoneNumber;
-        NationalCode = nationalCode;
-        FirstName = firstName;
-        LastName = lastName;
-        SchoolId = schoolId;
     }
 
-    public string FirstName { get; set; }
-    public string LastName { get; set; }
     public string PhoneNumber { get; set; }
-    public string NationalCode { get; set; }
-    public int SchoolId { get; set; }
+    public string? FirstName { get; set; }
+    public string? LastName { get; set; }
+    public string? NationalCode { get; set; }
+    public int? SchoolId { get; set; }
 
     public List<UserDevice>? UserDevices { get; set; }
     public School? School { get; set; }
