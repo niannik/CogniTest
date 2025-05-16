@@ -17,6 +17,7 @@ public class GetAllCitiesHandler : IRequestHandler<GetAllCitiesQuery, Result<Lis
     public async Task<Result<List<GetAllCitiesResponse>>> Handle(GetAllCitiesQuery request, CancellationToken cancellationToken)
     {
         return await _dbContext.Cities
+            .When(request.ProvinceId != null, x => x.ProvinceId == request.ProvinceId)
             .When(request.SearchTerm != null, x => x.Name.Contains(request.SearchTerm!))
             .AsNoTracking()
             .Select(x => new GetAllCitiesResponse()
