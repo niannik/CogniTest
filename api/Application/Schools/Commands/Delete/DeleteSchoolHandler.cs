@@ -16,10 +16,15 @@ public class DeleteSchoolHandler : IRequestHandler<DeleteSchoolCommand, Result>
 
     public async Task<Result> Handle(DeleteSchoolCommand request, CancellationToken cancellationToken)
     {
-        var school = await _dbContext.Schools.FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
+        var school = await _dbContext.Schools
+            .Include(x => x.Students)
+            .FirstOrDefaultAsync(x => x.Id == request.Id, cancellationToken);
 
         if (school is null)
             return SchoolErrors.SchoolNotFound;
+
+        else if (school.Students!.Any())
+            return SchoolErrors.CannotRemoveSchoolThatHasStudents;
 
         _dbContext.Schools.Remove(school);
         await _dbContext.SaveChangesAsync(cancellationToken);
