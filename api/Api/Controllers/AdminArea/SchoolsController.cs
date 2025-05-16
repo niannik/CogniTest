@@ -16,10 +16,10 @@ namespace Api.Controllers.AdminArea;
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/admin/[Controller]")]
 [Authorize(Policy = AppAuthorizationPolicies.SuperAdmin)]
-public class SchoolController : ApiController
+public class SchoolsController : ApiController
 {
     private readonly IMediator _mediator;
-    public SchoolController(IMediator mediator)
+    public SchoolsController(IMediator mediator)
     {
         _mediator = mediator;
     }
