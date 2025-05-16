@@ -32,7 +32,7 @@ public class SchoolController : ApiController
         return result.ToHttpResponse();
     }
 
-    [HttpGet("id")]
+    [HttpGet("{id:int}")]
     public async Task<ActionResult<GetSchoolByIdResponse>> GetById([FromRoute] int id)
     {
         var query = new GetSchoolByIdQuery(id);
@@ -49,7 +49,7 @@ public class SchoolController : ApiController
         return result.ToHttpResponse();
     }
 
-    [HttpPut("id")]
+    [HttpPut("{id:int}")]
     public async Task<ActionResult> Update([FromRoute] int id, [FromBody] UpdateSchoolDto dto)
     {
         var command = new UpdateSchoolCommand()
@@ -68,7 +68,7 @@ public class SchoolController : ApiController
         return result.ToHttpResponse();
     }
 
-    [HttpDelete("id")]
+    [HttpDelete("{id:int}")]
     public async Task<ActionResult> Delete([FromRoute] int id)
     {
         var command = new DeleteSchoolCommand(id);
