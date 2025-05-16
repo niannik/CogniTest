@@ -21,9 +21,8 @@ public class CitiesController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GetAllCitiesResponse>>> GetAll()
+    public async Task<ActionResult<List<GetAllCitiesResponse>>> GetAll([FromQuery] GetAllCitiesQuery query)
     {
-        var query = new GetAllCitiesQuery();
         var result = await _mediator.Send(query, CancellationToken);
 
         return result.ToHttpResponse();

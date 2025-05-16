@@ -22,9 +22,8 @@ public class ProvincesController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GetAllProvincesResponse>>> GetAll()
+    public async Task<ActionResult<List<GetAllProvincesResponse>>> GetAll([FromQuery] GetAllProvincesQuery query)
     {
-        var query = new GetAllProvincesQuery();
         var result = await _mediator.Send(query, CancellationToken);
 
         return result.ToHttpResponse();

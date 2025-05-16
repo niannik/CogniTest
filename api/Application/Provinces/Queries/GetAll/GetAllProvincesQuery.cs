@@ -3,4 +3,4 @@ using MediatR;
 
 namespace Application.Provinces.Queries.GetAll;
 
-public record GetAllProvincesQuery() : IRequest<Result<List<GetAllProvincesResponse>>>;
+public record GetAllProvincesQuery(string? SearchTerm) : IRequest<Result<List<GetAllProvincesResponse>>>;
