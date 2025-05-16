@@ -15,7 +15,7 @@ public class GetAllProvincesHandler : IRequestHandler<GetAllProvincesQuery, Resu
 
     public async Task<Result<List<GetAllProvincesResponse>>> Handle(GetAllProvincesQuery request, CancellationToken cancellationToken)
     {
-        return await _dbContext.Cities
+        return await _dbContext.Provinces
             .AsNoTracking()
             .Select(x => new GetAllProvincesResponse()
             {
