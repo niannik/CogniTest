@@ -21,6 +21,8 @@ public class GetAllSchoolsHandler : IRequestHandler<GetAllSchoolsQuery, Result<P
                                                    || x.Address.Contains(request.SearchTerm!)
                                                    || x.PostalCode.Contains(request.SearchTerm!)
                                                    || x.TelNumber.Contains(request.SearchTerm!))
+            .When(request.CityId != null, x => x.CityId == request.CityId)
+            .When(request.Level != null, x => x.Level == request.Level)
             .Select(x => new GetAllSchoolsResponse()
             {
                 Id = x.Id,
