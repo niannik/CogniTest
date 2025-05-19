@@ -4,9 +4,26 @@ using Infrastructure;
 using Application;
 using Swashbuckle.AspNetCore.SwaggerUI;
 using ConfigureServices = Api.ConfigureServices;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
+Serilog.Debugging.SelfLog.Enable(Console.WriteLine);
+if (builder.Environment.IsEnvironment("Test") == false)
+{
+    builder.Logging.ClearProviders();
+    builder.Host.UseSerilog((context, configuration) =>
+    {
+        configuration.Enrich.FromLogContext();
+        configuration.ReadFrom.Configuration(context.Configuration);
+
+        var seqUrl = builder.Configuration["SeqUrl"];
+        if (seqUrl is not null)
+        {
+            configuration.WriteTo.Seq(seqUrl);
+        }
+    });
+}
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureService(builder.Configuration, builder.Environment);
 builder.Services.AddApiServices(builder.Configuration);
@@ -32,7 +49,6 @@ if (app.Environment.IsProduction() == false)
     });
 }
 
-//app.UseSerilogRequestLogging();
 
 app.UseHttpsRedirection();
 
