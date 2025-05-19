@@ -3,6 +3,7 @@ using Application.Common.Interfaces;
 using Application.WorkingMemoryTerms.Queries.GetAll;
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.UserArea;
@@ -10,6 +11,7 @@ namespace Api.Controllers.UserArea;
 
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/[Controller]")]
+[Authorize]
 
 public class WorkingMemoryTermsController : ApiController
 {

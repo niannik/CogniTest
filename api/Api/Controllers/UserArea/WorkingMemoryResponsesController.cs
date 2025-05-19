@@ -1,14 +1,17 @@
 ﻿using Api.Extensions;
 using Application.Common.Interfaces;
 using Application.WorkingMemoryResponses.Command;
+using Application.WorkingMemoryResponses.Queries.GetByTestId;
 using Asp.Versioning;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers.UserArea;
 
 [ApiVersion(1)]
 [Route("api/v{version:apiVersion}/[Controller]")]
+[Authorize]
 public class WorkingMemoryResponsesController : ApiController
 {
     private readonly IMediator _mediator;
@@ -31,6 +34,15 @@ public class WorkingMemoryResponsesController : ApiController
             IsTarget = dto.IsTarget
         };
         var result = await _mediator.Send(command, CancellationToken);
+
+        return result.ToHttpResponse();
+    }
+    
+    [HttpGet("{testId:int}")]
+    public async Task<ActionResult<GetWorkingMemoryResponsesByTestIdResponse>> GetByTestId([FromRoute] int testId)
+    {
+        var query = new GetWorkingMemoryResponsesByTestIdQuery(testId, _currentUserService.UserId!.Value);
+        var result = await _mediator.Send(query, CancellationToken);
 
         return result.ToHttpResponse();
     }
