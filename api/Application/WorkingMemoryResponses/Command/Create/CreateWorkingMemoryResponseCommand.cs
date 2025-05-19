@@ -1,7 +1,7 @@
 ﻿using Application.Common;
 using MediatR;
 
-namespace Application.WorkingMemoryResponses.Command;
+namespace Application.WorkingMemoryResponses.Command.Create;
 
 public record CreateWorkingMemoryResponseCommand : IRequest<Result>
 {

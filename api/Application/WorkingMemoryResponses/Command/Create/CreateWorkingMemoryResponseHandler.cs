@@ -5,7 +5,7 @@ using Domain.Entities.WorkingMemoryAggregate;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.WorkingMemoryResponses.Command;
+namespace Application.WorkingMemoryResponses.Command.Create;
 
 class CreateWorkingMemoryResponseHandler : IRequestHandler<CreateWorkingMemoryResponseCommand, Result>
 {

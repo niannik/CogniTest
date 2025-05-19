@@ -1,4 +1,4 @@
-﻿namespace Application.WorkingMemoryResponses.Command;
+﻿namespace Application.WorkingMemoryResponses.Command.Create;
 
 public record CreateWorkingMemoryResponseDto
 {
