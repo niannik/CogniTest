@@ -1,8 +1,4 @@
-﻿using Api.Authorization;
-using Api.Extensions;
-using Application.Admins.Commands.Logout;
-using Application.Admins.Commands.RefreshAccessToken;
-using Application.Admins.Common.Models;
+﻿using Api.Extensions;
 using Application.Users.Commands.Logout;
 using Application.Users.Commands.RefreshAccessToken;
 using Application.Users.Common.Models;

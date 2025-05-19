@@ -11,6 +11,12 @@ public class WorkingMemoryResponseConfigurations : IEntityTypeConfiguration<Work
     {
         builder.HasKey(x => x.Id);
 
+        builder.Property(x => x.IsTarget)
+            .IsRequired(false);
+
+        builder.Property(x => x.ResponseTime)
+            .IsRequired(true);
+
         builder.HasOne(x => x.WorkingMemoryTerm)
             .WithMany(x => x.WorkingMemoryResponses)
             .OnDelete(DeleteBehavior.Restrict)
