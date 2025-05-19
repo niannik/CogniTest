@@ -36,7 +36,7 @@ public class UpdateSchoolHandler : IRequestHandler<UpdateSchoolCommand, Result>
             return ProvinceErrors.ProvinceNotFound;
 
         else if (!province.isCityExists)
-            return CityErrors.CityNotFound;
+            return CitiesErrors.CityNotFound;
 
         school.Name = request.Name;
         school.Address = request.Address;

@@ -29,7 +29,7 @@ public class CreateSchoolHandler : IRequestHandler<CreateSchoolCommand, Result>
             return ProvinceErrors.ProvinceNotFound;
 
         else if (!province.isCityExists)
-            return CityErrors.CityNotFound;
+            return CitiesErrors.CityNotFound;
 
         var school = new School(request.Name, request.Address, request.PostalCode, request.TelNumber, request.Level, request.CityId);
         _dbContext.Schools.Add(school);

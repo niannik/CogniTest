@@ -29,7 +29,7 @@ public class CreateCityHandler : IRequestHandler<CreateCityCommand, Result>
             return ProvinceErrors.ProvinceNotFound;
 
         else if (province.IsCityExists)
-            return CityErrors.CityAlreadyExists;
+            return CitiesErrors.CityAlreadyExists;
 
             var city = new City(request.Name, request.ProvinceId);
 
