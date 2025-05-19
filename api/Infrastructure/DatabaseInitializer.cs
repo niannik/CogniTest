@@ -4,6 +4,7 @@ using Application.Common.Utilities;
 using Domain.Entities.AdminAggregate;
 using Domain.Entities.CityAggregate;
 using Domain.Entities.RoleAggregate;
+using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 
@@ -26,6 +27,8 @@ public class DatabaseInitializer
         try
         {
             await _dbContext.Database.MigrateAsync();
+
+            #region Admin Seed Data
             var admins = await _dbContext.Admins.ToListAsync();
             var roles = await _dbContext.Roles.ToListAsync();
             var adminRoles = await _dbContext.AdminRoles.ToListAsync();
@@ -57,7 +60,9 @@ public class DatabaseInitializer
                 _dbContext.AdminRoles.Add(adminRole);
                 await _dbContext.SaveChangesAsync();
             }
+            #endregion
 
+            #region Province Seed Data
             var isProvinceExists = await _dbContext.Provinces.AnyAsync();
             if (!isProvinceExists)
             {
@@ -67,6 +72,44 @@ public class DatabaseInitializer
                 var city = new City("تهران", province.Id);
                 _dbContext.Cities.Add(city);
             }
+            #endregion
+
+            #region File Seed Data
+            var isFileExists = await _dbContext.Files.AnyAsync(default);
+            if (!isFileExists)
+            {
+                var files = FileSeedData.GetFiles();
+                _dbContext.Files.AddRange(files);
+            }
+            #endregion
+
+            #region Working Memory Test Seed Data
+            var isWorkingMemoryTestExists = await _dbContext.WorkingMemoryTests.AnyAsync(default);
+            if (!isWorkingMemoryTestExists)
+            {
+                var workingMemoryTests = WorkingMemoryTestSeedData.GetWorkingMemoryTests();
+                _dbContext.WorkingMemoryTests.AddRange(workingMemoryTests);
+            }
+            #endregion
+
+            await _dbContext.SaveChangesAsync();
+
+            #region One Back Seed Data
+            var isWorkingMemoryTermExists = await _dbContext.WorkingMemoryTerms.AnyAsync(default);
+            if (!isWorkingMemoryTermExists)
+            {
+                var oneBackTerms = WorkingMemoryTermSeedData.GetOneBackTerms();
+                _dbContext.WorkingMemoryTerms.AddRange(oneBackTerms);
+
+                var twoBackTerms = WorkingMemoryTermSeedData.GetTwoBackTerms();
+                _dbContext.WorkingMemoryTerms.AddRange(twoBackTerms);
+
+                var threeBackTerms = WorkingMemoryTermSeedData.GetThreeBackTerms();
+                _dbContext.WorkingMemoryTerms.AddRange(threeBackTerms);
+            }
+
+            #endregion
+
             await _dbContext.SaveChangesAsync();
         }
         catch (Exception ex)

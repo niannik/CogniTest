@@ -36,12 +36,6 @@ namespace Infrastructure.Migrations
                     b.Property<int?>("CreatedBy")
                         .HasColumnType("integer");
 
-                    b.Property<DateTime?>("DeletedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("DeletedBy")
-                        .HasColumnType("integer");
-
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -369,20 +363,8 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("CreatedBy")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("IsTarget")
                         .HasColumnType("boolean");
-
-                    b.Property<DateTime?>("LastUpdatedAt")
-                        .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("LastUpdatedBy")
-                        .HasColumnType("integer");
 
                     b.Property<long>("ResponseTime")
                         .HasColumnType("bigint");
@@ -439,6 +421,13 @@ namespace Infrastructure.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int?>("AudioId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
@@ -446,6 +435,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AudioId");
 
                     b.ToTable("WorkingMemoryTests");
                 });
@@ -570,6 +561,15 @@ namespace Infrastructure.Migrations
                     b.Navigation("WorkingMemoryTest");
                 });
 
+            modelBuilder.Entity("Domain.Entities.WorkingMemoryAggregate.WorkingMemoryTest", b =>
+                {
+                    b.HasOne("Domain.Entities.FileAggregate.File", "Audio")
+                        .WithMany("WorkingMemoryTests")
+                        .HasForeignKey("AudioId");
+
+                    b.Navigation("Audio");
+                });
+
             modelBuilder.Entity("Domain.Entities.AdminAggregate.Admin", b =>
                 {
                     b.Navigation("AdminRoles");
@@ -590,6 +590,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.FileAggregate.File", b =>
                 {
                     b.Navigation("WorkingMemoryTerms");
+
+                    b.Navigation("WorkingMemoryTests");
                 });
 
             modelBuilder.Entity("Domain.Entities.RoleAggregate.Role", b =>

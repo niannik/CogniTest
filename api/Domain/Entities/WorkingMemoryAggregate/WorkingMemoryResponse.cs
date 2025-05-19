@@ -3,7 +3,7 @@ using Domain.Entities.UserAggregate;
 
 namespace Domain.Entities.WorkingMemoryAggregate;
 
-public class WorkingMemoryResponse : AuditableEntity
+public class WorkingMemoryResponse : Entity
 {
     public WorkingMemoryResponse(bool isTarget, long responseTime, int workingMemoryTermId, int studentId)
     {

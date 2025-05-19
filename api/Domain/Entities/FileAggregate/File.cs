@@ -13,4 +13,5 @@ public class File : Entity
     public string FilePath { get; set; }
 
     public List<WorkingMemoryTerm>? WorkingMemoryTerms { get; set; }
+    public List<WorkingMemoryTest>? WorkingMemoryTests { get; set; }
 }
