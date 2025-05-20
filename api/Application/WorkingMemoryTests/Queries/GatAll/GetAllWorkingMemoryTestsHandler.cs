@@ -42,9 +42,9 @@ public class GetAllWorkingMemoryTestsHandler : IRequestHandler<GetAllWorkingMemo
 
         var response = new List<GetAllWorkingMemoryTestsResponse>();
 
+        var order = 1;
         foreach (var workingMemoryTest in workingMemoryTests)
         {
-            var order = 1;
             var status = WorkingMemoryTestStatus.Unavailable;
             if (workingMemoryTest.Type == WorkingMemoryTestType.OneBack && workingMemoryTest.TermsCount != 0)
             {
