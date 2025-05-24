@@ -31,8 +31,16 @@ public class GetAllSchoolsHandler : IRequestHandler<GetAllSchoolsQuery, Result<P
                 PostalCode = x.PostalCode,
                 TelNumber = x.TelNumber,
                 Level = x.Level,
-                ProvinceName = x.City.Province!.Name,
-                CityName = x.City.Name
+                ProvinceDetail = new SchoolProvinceDetail
+                {
+                    Id = x.City!.ProvinceId,
+                    Name = x.City!.Province!.Name
+                },
+                CityDetail = new SchoolCityDetail
+                {
+                    Id = x.CityId,
+                    Name = x.City!.Name
+                }
             })
             .ToPaginatedListAsync(request.Pagination, cancellationToken);
     }
