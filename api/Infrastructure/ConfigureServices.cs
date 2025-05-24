@@ -45,6 +45,7 @@ public static class ConfigureServices
         services.AddScoped<ISignInUserService, SignInUserService>();
         services.AddScoped<ISignInSchoolPrincipalService, SignInSchoolPrincipalService>();
         services.AddScoped<ISmsService, SmsService>();
+        services.AddScoped<IFileManager, FileManager>();
 
         services.AddSingleton(_ =>
         {
