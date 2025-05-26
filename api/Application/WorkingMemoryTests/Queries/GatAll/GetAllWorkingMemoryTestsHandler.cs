@@ -38,7 +38,9 @@ public class GetAllWorkingMemoryTestsHandler : IRequestHandler<GetAllWorkingMemo
                 x.Description,
                 AudioPath = x.Audio!.FilePath,
                 TermsCount = x.WorkingMemoryTerms!.Count
-            }).ToListAsync(cancellationToken);
+            })
+            .OrderBy(x => x.Order)
+            .ToListAsync(cancellationToken);
 
         var response = new List<GetAllWorkingMemoryTestsResponse>();
 
