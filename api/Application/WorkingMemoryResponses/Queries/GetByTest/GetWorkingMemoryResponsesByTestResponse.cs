@@ -1,6 +1,6 @@
-﻿namespace Application.WorkingMemoryResponses.Queries.GetByTestId;
+﻿namespace Application.WorkingMemoryResponses.Queries.GetByTest;
 
-public record GetWorkingMemoryResponsesByTestIdResponse
+public record GetWorkingMemoryResponsesByTestResponse
 {
     public required int CorrectAnswers { get; set; }
     public required int IncorrectAnswers { get; set; }

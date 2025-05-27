@@ -2,7 +2,7 @@
 using Application.Common.Interfaces;
 using Application.WorkingMemoryResponses.Command.Create;
 using Application.WorkingMemoryResponses.Command.Delete;
-using Application.WorkingMemoryResponses.Queries.GetByTestId;
+using Application.WorkingMemoryResponses.Queries.GetByTest;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -49,9 +49,9 @@ public class WorkingMemoryResponsesController : ApiController
     }
     
     [HttpGet("{testId:int}")]
-    public async Task<ActionResult<GetWorkingMemoryResponsesByTestIdResponse>> GetByTestId([FromRoute] int testId)
+    public async Task<ActionResult<GetWorkingMemoryResponsesByTestResponse>> GetByTestId([FromRoute] int testId)
     {
-        var query = new GetWorkingMemoryResponsesByTestIdQuery(testId, _currentUserService.UserId!.Value);
+        var query = new GetWorkingMemoryResponsesByTestQuery(testId, _currentUserService.UserId!.Value);
         var result = await _mediator.Send(query, CancellationToken);
 
         return result.ToHttpResponse();
