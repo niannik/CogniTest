@@ -63,6 +63,6 @@ public class GetWorkingMemoryResponsesBySchoolHandler : IRequestHandler<GetWorki
             }
         }
 
-        return termStats.Values.ToList();
+        return termStats.Values.OrderBy(x => x.TermId).ToList();
     }
 }
