@@ -48,14 +48,10 @@ public class SchoolPrincipalVerifyOtpHandler : IRequestHandler<SchoolPrincipalVe
 
         var token = await _signInSchoolPrincipalService.LoginAsync(schoolPrincipal);
 
-        var isFirstLogin = true;
-        if (schoolPrincipal.LastName != null || schoolPrincipal.FirstName != null || schoolPrincipal.NationalCode != null)
-            isFirstLogin = false;
-
         return new SchoolPrincipalVerifyOtpResponse()
         {
             Token = token,
-            IsFirstLogin = isFirstLogin
+            SchoolId = schoolPrincipal.SchoolId
         };
     }
 }
