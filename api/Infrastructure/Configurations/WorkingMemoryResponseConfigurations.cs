@@ -22,8 +22,8 @@ public class WorkingMemoryResponseConfigurations : IEntityTypeConfiguration<Work
             .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.WorkingMemoryTermId);
 
-        builder.HasOne(x => x.Student)
+        builder.HasOne(x => x.UserTestSession)
             .WithMany(x => x.WorkingMemoryResponses)
-            .HasForeignKey(x => x.StudentId);
+            .HasForeignKey(x => x.UserTestSessionId);
     }
 }

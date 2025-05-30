@@ -2,6 +2,7 @@
 using Application.Common.Interfaces;
 using Application.Users.Common;
 using Application.WorkingMemoryTests.Common.Enums;
+using Domain.Entities.UserAggregate;
 using Domain.Enums;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,18 +18,6 @@ public class GetAllWorkingMemoryTestsHandler : IRequestHandler<GetAllWorkingMemo
     }
     public async Task<Result<List<GetAllWorkingMemoryTestsResponse>>> Handle(GetAllWorkingMemoryTestsQuery request, CancellationToken cancellationToken)
     {
-        var userRsponse = await _dbContext.Users
-            .Where(x => x.Id == request.Id)
-            .Select(x => new
-            {
-                OneBackCount = x.WorkingMemoryResponses!.Count(x => x.WorkingMemoryTerm!.WorkingMemoryTest!.Type == WorkingMemoryTestType.OneBack),
-                TwoBackCount = x.WorkingMemoryResponses!.Count(x => x.WorkingMemoryTerm!.WorkingMemoryTest!.Type == WorkingMemoryTestType.TwoBack),
-                ThreeBackCount = x.WorkingMemoryResponses!.Count(x => x.WorkingMemoryTerm!.WorkingMemoryTest!.Type == WorkingMemoryTestType.ThreeBack)
-            }).FirstOrDefaultAsync(cancellationToken);
-
-        if (userRsponse is null)
-            return UserErrors.UserNotFound;
-
         var workingMemoryTests = await _dbContext.WorkingMemoryTests
             .Select(x => new
             {
@@ -37,7 +26,7 @@ public class GetAllWorkingMemoryTestsHandler : IRequestHandler<GetAllWorkingMemo
                 x.Order,
                 x.Description,
                 AudioPath = x.Audio!.FilePath,
-                TermsCount = x.WorkingMemoryTerms!.Count
+                UserTestSession = x.UserTestSessions!.FirstOrDefault(x => x.UserId == request.UserId)
             })
             .OrderBy(x => x.Order)
             .ToListAsync(cancellationToken);
@@ -48,54 +37,21 @@ public class GetAllWorkingMemoryTestsHandler : IRequestHandler<GetAllWorkingMemo
         foreach (var workingMemoryTest in workingMemoryTests)
         {
             var status = WorkingMemoryTestStatus.Unavailable;
-            if (workingMemoryTest.Type == WorkingMemoryTestType.OneBack && workingMemoryTest.TermsCount != 0)
+            if (workingMemoryTest.UserTestSession is null)
             {
-                if (workingMemoryTest.TermsCount == userRsponse.OneBackCount)
-                {
-                    status = WorkingMemoryTestStatus.Completed;
-                    order = workingMemoryTest.Order + 1;
-                }
-                else if (userRsponse.OneBackCount == 0)
-                {
+                if (order != workingMemoryTest.Order)
+                    status = WorkingMemoryTestStatus.Unavailable;
+                else
                     status = WorkingMemoryTestStatus.Available;
-                }
-                else if (userRsponse.OneBackCount < workingMemoryTest.TermsCount)
-                {
-                    status = WorkingMemoryTestStatus.InProgress;
-                }
             }
-            else if (workingMemoryTest.Type == WorkingMemoryTestType.TwoBack && workingMemoryTest.TermsCount != 0)
+            else if (workingMemoryTest.UserTestSession.Status == TestSessionStatus.Block1Completed || workingMemoryTest.UserTestSession.Status == TestSessionStatus.Block2Completed)
             {
-                if (userRsponse.TwoBackCount == workingMemoryTest.TermsCount)
-                {
-                    status = WorkingMemoryTestStatus.Completed;
-                    order = workingMemoryTest.Order + 1;
-                }
-                else if (userRsponse.TwoBackCount == 0)
-                {
-                    if (order != workingMemoryTest.Order)
-                        status = WorkingMemoryTestStatus.Unavailable;
-                    else
-                        status = WorkingMemoryTestStatus.Available;
-                }
-                else if (userRsponse.TwoBackCount < workingMemoryTest.TermsCount)
-                {
-                    status = WorkingMemoryTestStatus.InProgress;
-                }
+                status = WorkingMemoryTestStatus.Completed;
+                order = workingMemoryTest.Order + 1;
             }
-            else if (workingMemoryTest.Type == WorkingMemoryTestType.ThreeBack && workingMemoryTest.TermsCount != 0)
+            else if (workingMemoryTest.UserTestSession.Status == TestSessionStatus.Block1InProgress || workingMemoryTest.UserTestSession.Status == TestSessionStatus.Block2InProgress)
             {
-                if (userRsponse.ThreeBackCount == workingMemoryTest.TermsCount)
-                    status = WorkingMemoryTestStatus.Completed;
-                else if (userRsponse.ThreeBackCount == 0)
-                {
-                    if (order != workingMemoryTest.Order)
-                        status = WorkingMemoryTestStatus.Unavailable;
-                    else
-                        status = WorkingMemoryTestStatus.Available;
-                }
-                else if (userRsponse.ThreeBackCount < workingMemoryTest.TermsCount)
-                    status = WorkingMemoryTestStatus.InProgress;
+                status = WorkingMemoryTestStatus.InProgress;
             }
             var userWorkingMemoryTest = new GetAllWorkingMemoryTestsResponse()
             {

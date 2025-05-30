@@ -23,6 +23,10 @@ public class WorkingMemoryTestConfigurations : IEntityTypeConfiguration<WorkingM
             .HasForeignKey(x => x.WorkingMemoryTestId)
             .OnDelete(DeleteBehavior.Restrict);
 
+        builder.HasMany(x => x.UserTestSessions)
+            .WithOne(x => x.WorkingMemoryTest)
+            .HasForeignKey(x => x.WorkingMemoryTestId);
+
         builder.HasOne(x => x.Audio)
             .WithMany(x => x.WorkingMemoryTests)
             .HasForeignKey(x => x.AudioId);

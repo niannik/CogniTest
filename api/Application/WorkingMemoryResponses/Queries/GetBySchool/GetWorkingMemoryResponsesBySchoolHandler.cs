@@ -27,14 +27,14 @@ public class GetWorkingMemoryResponsesBySchoolHandler : IRequestHandler<GetWorki
         var termsCount = terms.Count();
 
         var userResponses = await _dbContext.WorkingMemoryResponses
-            .Where(x => x.Student!.SchoolId == request.SchoolId
+            .Where(x => x.UserTestSession!.User!.SchoolId == request.SchoolId
                 && x.WorkingMemoryTerm!.WorkingMemoryTestId == request.TestId
                 && x.WorkingMemoryTerm.Order != 1)
             .Include(x => x.WorkingMemoryTerm)
             .ToListAsync(cancellationToken);
 
         var groupedResponses = userResponses
-            .GroupBy(x => x.StudentId)
+            .GroupBy(x => x.UserTestSession!.UserId)
             .Where(g => g.Count() == termsCount)
             .ToList();
 

@@ -28,5 +28,5 @@ public class User : AuditableEntity
 
     public List<UserDevice>? UserDevices { get; set; }
     public School? School { get; set; }
-    public List<WorkingMemoryResponse>? WorkingMemoryResponses { get; set; }
+    public List<UserTestSession>? UserTestSessions { get; set; }
 }

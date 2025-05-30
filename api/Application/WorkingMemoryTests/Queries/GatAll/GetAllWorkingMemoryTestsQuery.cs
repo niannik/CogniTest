@@ -4,4 +4,4 @@ using MediatR;
 
 namespace Application.WorkingMemoryTests.Queries.GatAll;
 
-public record GetAllWorkingMemoryTestsQuery(int Id) : IRequest<Result<List<GetAllWorkingMemoryTestsResponse>>>;
+public record GetAllWorkingMemoryTestsQuery(int UserId) : IRequest<Result<List<GetAllWorkingMemoryTestsResponse>>>;

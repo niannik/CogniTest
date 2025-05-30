@@ -5,16 +5,18 @@ namespace Domain.Entities.WorkingMemoryAggregate;
 
 public class WorkingMemoryTerm : Entity
 {
-    public WorkingMemoryTerm(int order, bool isTarget, int workingMemoryTestId, int pictureId)
+    public WorkingMemoryTerm(int order, bool isTarget, int blockNumber, int workingMemoryTestId, int pictureId)
     {
         Order = order;
         IsTarget = isTarget;
+        BlockNumber = blockNumber;
         WorkingMemoryTestId = workingMemoryTestId;
         PictureId = pictureId;
     }
 
     public int Order { get; set; }
     public bool IsTarget { get; set; }
+    public int BlockNumber { get; set; }
     public int WorkingMemoryTestId { get; set; }
     public int PictureId { get; set; }
 

@@ -42,8 +42,8 @@ public class UserConfigurations : IEntityTypeConfiguration<User>
             .OnDelete(DeleteBehavior.Restrict)
             .HasForeignKey(x => x.SchoolId);
 
-        builder.HasMany(x => x.WorkingMemoryResponses)
-            .WithOne(x => x.Student)
-            .HasForeignKey(x => x.StudentId);
+        builder.HasMany(x => x.UserTestSessions)
+            .WithOne(x => x.User)
+            .HasForeignKey(x => x.UserId);
     }
 }

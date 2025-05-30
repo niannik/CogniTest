@@ -1,4 +1,5 @@
 ﻿using Domain.Common;
+using Domain.Entities.UserAggregate;
 using Domain.Enums;
 using File = Domain.Entities.FileAggregate.File;
 
@@ -20,4 +21,5 @@ public class WorkingMemoryTest : Entity
 
     public File? Audio { get; set; }
     public List<WorkingMemoryTerm>? WorkingMemoryTerms { get; set; }
+    public List<UserTestSession>? UserTestSessions { get; set; }
 }

@@ -24,6 +24,7 @@ public interface IApplicationDbContext
     public DbSet<School> Schools { get; set; }
     public DbSet<SchoolPrincipal> SchoolPrincipals { get; set; }
     public DbSet<User> Users { get; set; }
+    public DbSet<UserTestSession> UserTestSessions { get; set; }
     public DbSet<WorkingMemoryTest> WorkingMemoryTests { get; set; }
     public DbSet<WorkingMemoryTerm> WorkingMemoryTerms { get; set; }
     public DbSet<WorkingMemoryResponse> WorkingMemoryResponses { get; set; }

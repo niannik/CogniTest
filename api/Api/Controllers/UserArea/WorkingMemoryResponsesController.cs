@@ -1,7 +1,6 @@
 ﻿using Api.Extensions;
 using Application.Common.Interfaces;
 using Application.WorkingMemoryResponses.Command.Create;
-using Application.WorkingMemoryResponses.Command.Delete;
 using Application.WorkingMemoryResponses.Queries.GetByTest;
 using Asp.Versioning;
 using MediatR;
@@ -38,16 +37,7 @@ public class WorkingMemoryResponsesController : ApiController
 
         return result.ToHttpResponse();
     }
-    
-    [HttpDelete("{testId:int}")]
-    public async Task<ActionResult> Delete([FromRoute] int testId)
-    {
-        var command = new DeleteWorkingMemoryResponseCommand(testId, _currentUserService.UserId!.Value);
-        var result = await _mediator.Send(command, CancellationToken);
 
-        return result.ToHttpResponse();
-    }
-    
     [HttpGet("{testId:int}")]
     public async Task<ActionResult<GetWorkingMemoryResponsesByTestResponse>> GetByTestId([FromRoute] int testId)
     {

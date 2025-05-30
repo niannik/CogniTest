@@ -19,6 +19,9 @@ public class FileSeedData
         files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "panda.png")));
         files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "monkey.png")));
         files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "rabbit.png")));
+        files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "kangaroo.png")));
+        files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "gorilla.png")));
+        files.Add(new File(Path.Combine(Folders.Attachments, Folders.Pictures, "polarbear.png"))); 
 
         return files;
     }
