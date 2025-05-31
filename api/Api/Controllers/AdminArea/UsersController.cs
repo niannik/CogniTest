@@ -2,6 +2,7 @@
 using Api.Extensions;
 using Application.Common.Models;
 using Application.Schools.Queries.GetAll;
+using Application.Users.Queries.GetAll;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,7 +22,7 @@ public class UsersController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<PaginatedList<GetAllSchoolsResponse>>> GetAll([FromQuery] GetAllSchoolsQuery query)
+    public async Task<ActionResult<PaginatedList<GetAllUsersResponse>>> GetAll([FromQuery] GetAllUsersQuery query)
     {
         var result = await _mediator.Send(query, CancellationToken);
 
