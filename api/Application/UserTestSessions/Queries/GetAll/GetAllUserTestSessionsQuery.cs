@@ -3,9 +3,9 @@ using Application.Common.Models;
 using Domain.Enums;
 using MediatR;
 
-namespace Application.Users.Queries.GetAll;
+namespace Application.UserTestSessions.Queries.GetAll;
 
-public record GetAllUsersQuery : IRequest<Result<PaginatedList<GetAllUsersResponse>>>
+public record GetAllUserTestSessionsQuery : IRequest<Result<PaginatedList<GetAllUserTestSessionsResponse>>>
 {
     public PaginationDto Pagination { get; set; }
     public string? SearchTerm { get; set; }

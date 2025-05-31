@@ -5,17 +5,17 @@ using Application.Common.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Application.Users.Queries.GetAll;
+namespace Application.UserTestSessions.Queries.GetAll;
 
-public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, Result<PaginatedList<GetAllUsersResponse>>>
+public class GetAllUserTestSessionsHandler : IRequestHandler<GetAllUserTestSessionsQuery, Result<PaginatedList<GetAllUserTestSessionsResponse>>>
 {
     private readonly IApplicationDbContext _dbContext;
-    public GetAllUsersHandler(IApplicationDbContext dbContext)
+    public GetAllUserTestSessionsHandler(IApplicationDbContext dbContext)
     {
         _dbContext = dbContext;
     }
 
-    public async Task<Result<PaginatedList<GetAllUsersResponse>>> Handle(GetAllUsersQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PaginatedList<GetAllUserTestSessionsResponse>>> Handle(GetAllUserTestSessionsQuery request, CancellationToken cancellationToken)
     {
         var response = await _dbContext.UserTestSessions
             .Where(x => x.CompletedAt.HasValue)
@@ -24,7 +24,7 @@ public class GetAllUsersHandler : IRequestHandler<GetAllUsersQuery, Result<Pagin
                                                    || x.User.PhoneNumber.Contains(request.SearchTerm!))
             .When(request.TestType != null, x => x.WorkingMemoryTest!.Type == request.TestType!.Value)
             .When(request.IsRightHanded != null, x => x.User!.IsRightHanded == request.IsRightHanded!.Value)
-            .Select(x => new GetAllUsersResponse
+            .Select(x => new GetAllUserTestSessionsResponse
             {
                 UserTestSessionId = x.Id,
                 FirstName = x.User!.FirstName,

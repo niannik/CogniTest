@@ -14,11 +14,11 @@ namespace Api.Controllers.UserArea;
 [Route("api/v{version:apiVersion}/[Controller]")]
 [Authorize]
 
-public class UserTestSessionController : ApiController
+public class UserTestSessionsController : ApiController
 {
     private readonly IMediator _mediator;
     private readonly ICurrentUserService _currentUserService;
-    public UserTestSessionController(IMediator mediator, ICurrentUserService currentUserService)
+    public UserTestSessionsController(IMediator mediator, ICurrentUserService currentUserService)
     {
         _mediator = mediator;
         _currentUserService = currentUserService;

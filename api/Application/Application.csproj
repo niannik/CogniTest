@@ -23,6 +23,7 @@
 
   <ItemGroup>
     <Folder Include="Admins\Queries\" />
+    <Folder Include="Users\Queries\" />
   </ItemGroup>
 
 </Project>

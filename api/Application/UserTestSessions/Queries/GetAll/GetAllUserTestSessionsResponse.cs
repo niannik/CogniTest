@@ -1,8 +1,8 @@
 ﻿using Domain.Enums;
 
-namespace Application.Users.Queries.GetAll;
+namespace Application.UserTestSessions.Queries.GetAll;
 
-public record GetAllUsersResponse
+public record GetAllUserTestSessionsResponse
 {
     public required int UserTestSessionId { get; set; }
     public required string FirstName { get; set; }
