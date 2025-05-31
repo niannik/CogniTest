@@ -64,15 +64,15 @@ class CreateWorkingMemoryResponseHandler : IRequestHandler<CreateWorkingMemoryRe
 
         if (lastBlockTerm.Id == request.TermId)
         {
-            var targetTermsCount = workingMemoryTerms.Count(x => x.IsTarget);
-            var userTargetCounts = workingMemoryTerms.Count(x => x.UserResponse != null && x.UserResponse!.IsTarget.HasValue && x.UserResponse!.IsTarget!.Value && x.IsTarget);
+            var targetTermsCount = workingMemoryTerms.Count();
+            var userTargetCounts = workingMemoryTerms.Count(x => x.UserResponse != null && x.UserResponse!.IsTarget != null && x.UserResponse!.IsTarget!.Value == x.IsTarget);
 
             var targetAccuracy = (double)userTargetCounts / targetTermsCount;
 
-            if (targetAccuracy >= 0.6 && blockNumber == 1)
+            if (targetAccuracy >= 0.8 && blockNumber == 1)
                 userTestSession.Status = TestSessionStatus.Block2InProgress;
 
-            else if (targetAccuracy < 0.6)
+            else
             {
                 if (blockNumber == 1)
                     userTestSession.Status = TestSessionStatus.Block1Completed;
