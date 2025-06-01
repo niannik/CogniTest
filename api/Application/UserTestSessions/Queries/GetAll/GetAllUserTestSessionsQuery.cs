@@ -10,5 +10,5 @@ public record GetAllUserTestSessionsQuery : IRequest<Result<PaginatedList<GetAll
     public PaginationDto Pagination { get; set; }
     public string? SearchTerm { get; set; }
     public bool? IsRightHanded { get; set; }
-    public WorkingMemoryTestType? TestType { get; set; }
+    public required WorkingMemoryTestType TestType { get; set; }
 }

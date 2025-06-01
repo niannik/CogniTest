@@ -18,11 +18,10 @@ public class GetAllUserTestSessionsHandler : IRequestHandler<GetAllUserTestSessi
     public async Task<Result<PaginatedList<GetAllUserTestSessionsResponse>>> Handle(GetAllUserTestSessionsQuery request, CancellationToken cancellationToken)
     {
         var response = await _dbContext.UserTestSessions
-            .Where(x => x.CompletedAt.HasValue)
-            .When(request.SearchTerm != null, x => x.User.FirstName.Contains(request.SearchTerm!)
+            .Where(x => x.CompletedAt.HasValue && x.WorkingMemoryTest!.Type == request.TestType)
+            .When(request.SearchTerm != null, x => x.User!.FirstName.Contains(request.SearchTerm!)
                                                    || x.User.LastName.Contains(request.SearchTerm!)
                                                    || x.User.PhoneNumber.Contains(request.SearchTerm!))
-            .When(request.TestType != null, x => x.WorkingMemoryTest!.Type == request.TestType!.Value)
             .When(request.IsRightHanded != null, x => x.User!.IsRightHanded == request.IsRightHanded!.Value)
             .Select(x => new GetAllUserTestSessionsResponse
             {
