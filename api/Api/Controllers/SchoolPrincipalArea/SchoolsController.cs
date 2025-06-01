@@ -2,6 +2,7 @@
 using Application.Common.Models;
 using Application.Schools.Queries.GetAll;
 using Application.Schools.Queries.GetAllByCity;
+using Application.Schools.Queries.GetAllBySchoolPrincipal;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -19,7 +20,7 @@ public class SchoolsController : ApiController
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<GetAllSchoolsByCityResponse>>> GetAll([FromQuery] GetAllSchoolsByCityQuery query)
+    public async Task<ActionResult<List<GetAllBySchoolPrincipalResponse>>> GetAll([FromQuery] GetAllBySchoolPrincipalQuery query)
     {
         var result = await _mediator.Send(query, CancellationToken);
 
