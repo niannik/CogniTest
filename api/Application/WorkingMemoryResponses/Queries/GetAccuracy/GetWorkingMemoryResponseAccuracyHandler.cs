@@ -41,8 +41,8 @@ public class GetWorkingMemoryResponseAccuracyHandler : IRequestHandler<GetWorkin
         return new GetWorkingMemoryResponseAccuracyResponse()
         {
             UserFullName = userResponseDatails.UserFullName,
-            UserAccuracyPercent = userResponseDatails!.CorrectAnswers * 100,
-            TotalAccuracyPercent = totalAccuracy
+            UserAccuracyPercent = Math.Round(userResponseDatails!.CorrectAnswers * 100),
+            TotalAccuracyPercent = Math.Round(totalAccuracy)
         };
 
     }
