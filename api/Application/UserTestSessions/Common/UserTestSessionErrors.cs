@@ -10,4 +10,5 @@ public class UserTestSessionErrors
     public static Error UserAlreadyHasActiveTestSession = new("کاربر درحال حاضر یک آزمون فعال دارد", "User_Already_Has_Active_Test_Session");
     public static Error TestResultUnavailableForActiveSession = new("نتیجه آزمون فعال در دسترس نمیباشد", "Test_Result_Unavailable_For_Active_Session");
     public static Error CannotCancelCompletedTestSession = new("امکان انصراف از آزمون تکمیل شده وجود ندارد", "Cannot_Cancel_Completed_Test_Session");
+    public static Error UserTestSessionIsNotCompleted = new("کاربر این آزمون را تکمیل نکرده است", "User_Test_Session_Is_Not_Completed");
 }

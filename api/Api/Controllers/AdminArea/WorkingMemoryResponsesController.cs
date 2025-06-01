@@ -1,7 +1,7 @@
 ﻿using Api.Authorization;
 using Api.Extensions;
+using Application.WorkingMemoryResponses.Queries.GetAccuracy;
 using Application.WorkingMemoryResponses.Queries.GetBySession;
-using Application.WorkingMemoryTests.Commands.UploadAudio;
 using Asp.Versioning;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +21,19 @@ public class WorkingMemoryResponsesController : ApiController
         _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<List<GetWorkingMemoryResponsesByTestSessionResponse>>> GetBySession([FromQuery] GetWorkingMemoryResponsesByTestSessionQuery query)
+    [HttpGet("{sessionId:int}")]
+    public async Task<ActionResult<List<GetWorkingMemoryResponsesByTestSessionResponse>>> GetBySession([FromRoute] int sessionId)
     {
+        var query = new GetWorkingMemoryResponsesByTestSessionQuery(sessionId);
+        var result = await _mediator.Send(query, CancellationToken);
+
+        return result.ToHttpResponse();
+    }
+    
+    [HttpGet("{sessionId:int}/accuracy-chart")]
+    public async Task<ActionResult<GetWorkingMemoryResponseAccuracyResponse>> GetAccuracy([FromRoute] int sessionId)
+    {
+        var query = new GetWorkingMemoryResponseAccuracyQuery(sessionId);
         var result = await _mediator.Send(query, CancellationToken);
 
         return result.ToHttpResponse();

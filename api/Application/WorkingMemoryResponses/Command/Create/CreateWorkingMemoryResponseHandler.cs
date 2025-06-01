@@ -67,6 +67,9 @@ class CreateWorkingMemoryResponseHandler : IRequestHandler<CreateWorkingMemoryRe
             var targetTermsCount = workingMemoryTerms.Count();
             var userTargetCounts = workingMemoryTerms.Count(x => x.UserResponse != null && x.UserResponse!.IsTarget != null && x.UserResponse!.IsTarget!.Value == x.IsTarget);
 
+            if (request.IsTarget == lastBlockTerm.IsTarget)
+                userTargetCounts++;
+
             var targetAccuracy = (double)userTargetCounts / targetTermsCount;
 
             if (targetAccuracy >= 0.8 && blockNumber == 1)
