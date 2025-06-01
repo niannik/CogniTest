@@ -20,6 +20,7 @@ public class GetWorkingMemoryResponseAccuracyHandler : IRequestHandler<GetWorkin
             .Where(x => x.Id == request.UserTestSessionId && x.CompletedAt.HasValue)
             .Select(x => new
             {
+                UserFullName = x.User!.FirstName + " " + x.User.LastName,
                 x.WorkingMemoryTestId,
                 CorrectAnswers = (double) x.WorkingMemoryResponses!.Count(x => x.IsTarget.HasValue && x.IsTarget == x.WorkingMemoryTerm!.IsTarget) / x.WorkingMemoryResponses!.Count(),
             }).FirstOrDefaultAsync(cancellationToken);
@@ -39,6 +40,7 @@ public class GetWorkingMemoryResponseAccuracyHandler : IRequestHandler<GetWorkin
 
         return new GetWorkingMemoryResponseAccuracyResponse()
         {
+            UserFullName = userResponseDatails.UserFullName,
             UserAccuracyPercent = userResponseDatails!.CorrectAnswers * 100,
             TotalAccuracyPercent = totalAccuracy
         };
